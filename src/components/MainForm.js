@@ -10,9 +10,9 @@ const MainForm = () => {
 
   const confettiConfig = {
     angle: 90,
-    spread: 360,
+    spread: 240,
     startVelocity: 40,
-    elementCount: 70,
+    elementCount: 100,
     dragFriction: 0.12,
     duration: 3000,
     stagger: 3,
@@ -65,9 +65,9 @@ const MainForm = () => {
     /* get random */
     const randomIndex = newNameList.length * Math.random() | 0;
     const randomName = newNameList[randomIndex];
+    setSubmitted(true);
     setWinner(randomName);
     setNameList(newNameList);
-    setSubmitted(true);
 
   }
 
@@ -117,12 +117,17 @@ const MainForm = () => {
 
   return (
     <>
-      <Confetti active={submitted} config={confettiConfig} />
+      {/* <Confetti active={submitted} config={confettiConfig} /> */}
+      <div className="is-flex" style={{ justifyContent: 'center' }}>
+        <Confetti active={submitted} config={confettiConfig} />
+      </div>
       {winner && (
         <>
 
-          <div className="mb-5">
-            <h3 className="mb-3">The winner is <strong>{winner}</strong></h3>
+          <div className="is-flex" style={{ flexDirection: 'column', alignItems: 'center',marginBottom:'10em' }}>
+            <h3 className="mb-3">Pemenangnya adalah <strong>{winner}</strong>
+            </h3>
+
             <button onClick={handleClickBack} className="button is-secondary is-small">
               <span className="icon is-ismall">
                 <i className="fas fa-chevron-left"></i>
