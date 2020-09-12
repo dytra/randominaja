@@ -114,7 +114,12 @@ const MainForm = () => {
               </div>
             </div>
             <div className="column is-3">
-              <a className="button is-danger">Hapus</a>
+              <a className="button is-danger">
+                <span className="icon is-small">
+                  <i className="fas fa-trash"></i>
+                </span>
+                <span>Hapus</span>
+              </a>
             </div>
           </div>
         )
@@ -130,10 +135,14 @@ const MainForm = () => {
                   <div className="columns">
 
                     <div className="column is-4">
-                      <input name="name" className="input" type="text" placeholder="Input" onChange={handleChangeName} autoComplete="off" value={currentName} required />
+                      <input name="name" className="input" type="text" placeholder="Entry data..." onChange={handleChangeName} autoComplete="off" value={currentName} required />
                     </div>
                     <div className="column is-3">
-                      <button className="button is-secondary" onClick={handleClickTambah}>Tambah</button>
+                      <button className="button is-secondary" onClick={handleClickTambah}>
+                        <span className="icon is-small">
+                          <i className="fas fa-plus"></i>
+                        </span>
+                        <span>Tambah</span></button>
 
                     </div>
 
