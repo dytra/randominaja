@@ -198,7 +198,7 @@ const MainForm = () => {
         )
       }
       <div className="buttons">
-        <button className="button is-primary" onClick={handleSubmitRandom}>
+        <button className="button is-primary" onClick={handleSubmitRandom} disabled={nameList?.length < 1}>
           <span className="icon is-ismall">
             <i className="fas fa-sync"></i>
           </span>
