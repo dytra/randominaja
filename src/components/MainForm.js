@@ -95,9 +95,13 @@ const MainForm = () => {
   return (
     <>
       {winner && (
-        <div className="mb-3">
-          <h3 >The winner is <strong>{winner}</strong></h3>
-          <button onClick={handleClickBack} className="button is-secondary is-small">Back</button>
+        <div className="mb-5">
+          <h3 className="mb-3">The winner is <strong>{winner}</strong></h3>
+          <button onClick={handleClickBack} className="button is-secondary is-small">
+            <span className="icon is-ismall">
+              <i className="fas fa-chevron-left"></i>
+            </span>
+            <span>Back</span></button>
         </div>
       )}
       { !winner && nameList.map((item, index) => {
@@ -155,7 +159,11 @@ const MainForm = () => {
         )
       }
       <div className="buttons">
-        <button className="button is-primary" onClick={handleSubmitRandom}>Acakincuy</button>
+        <button className="button is-primary" onClick={handleSubmitRandom}>
+          <span className="icon is-ismall">
+            <i className="fas fa-sync"></i>
+          </span>
+          <span>Acakincuy</span></button>
         <button className="button is-secondary" onClick={handleClickReset}>Reset</button>
       </div>
     </>
