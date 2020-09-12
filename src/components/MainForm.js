@@ -42,6 +42,13 @@ const MainForm = () => {
     setCurrentName("");
   }
 
+  const handleClickRemove = index => {
+    const newNameList = nameList.filter((item, idx) => {
+      return idx !== index
+    });
+    setNameList(newNameList);
+  }
+
   const handleChangeName = e => {
     const name = e.target.value;
     setCurrentName(name);
@@ -124,7 +131,7 @@ const MainForm = () => {
       {winner && (
         <>
 
-          <div className="is-flex" style={{ flexDirection: 'column', alignItems: 'center',marginBottom:'10em' }}>
+          <div className="is-flex" style={{ flexDirection: 'column', alignItems: 'center', marginBottom: '10em' }}>
             <h3 className="mb-3">Pemenangnya adalah <strong>{winner}</strong>
             </h3>
 
@@ -150,12 +157,12 @@ const MainForm = () => {
               </div>
             </div>
             <div className="column is-3">
-              <a className="button is-danger">
+              <button className="button is-danger" onClick={() => handleClickRemove(index)}>
                 <span className="icon is-small">
                   <i className="fas fa-trash"></i>
                 </span>
                 <span>Hapus</span>
-              </a>
+              </button>
             </div>
           </div>
         )
