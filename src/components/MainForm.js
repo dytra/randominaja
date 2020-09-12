@@ -1,10 +1,26 @@
 import React, { useState, useEffect } from "react";
+import Confetti from 'react-dom-confetti';
 
 const MainForm = () => {
   const [currentName, setCurrentName] = useState("");
   const [nameList, setNameList] = useState([]);
   const [tempNameList, setTempNameList] = useState([]);
   const [winner, setWinner] = useState();
+  const [submitted, setSubmitted] = useState(false);
+
+  const confettiConfig = {
+    angle: 90,
+    spread: 360,
+    startVelocity: 40,
+    elementCount: 70,
+    dragFriction: 0.12,
+    duration: 3000,
+    stagger: 3,
+    width: "10px",
+    height: "10px",
+    perspective: "500px",
+    colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"]
+  };
 
   const handleSubmitNames = (e) => {
     e.preventDefault();
@@ -51,6 +67,8 @@ const MainForm = () => {
     const randomName = newNameList[randomIndex];
     setWinner(randomName);
     setNameList(newNameList);
+    setSubmitted(true);
+
   }
 
   const handleClickReset = () => {
@@ -89,20 +107,29 @@ const MainForm = () => {
   }
 
   useEffect(() => {
-    // console.log(tempNameList);
-  }, [tempNameList]);
+    if (winner) {
+      setTimeout(() => {
+        setSubmitted(false);
+
+      }, 100);
+    }
+  }, [winner]);
 
   return (
     <>
+      <Confetti active={submitted} config={confettiConfig} />
       {winner && (
-        <div className="mb-5">
-          <h3 className="mb-3">The winner is <strong>{winner}</strong></h3>
-          <button onClick={handleClickBack} className="button is-secondary is-small">
-            <span className="icon is-ismall">
-              <i className="fas fa-chevron-left"></i>
-            </span>
-            <span>Back</span></button>
-        </div>
+        <>
+
+          <div className="mb-5">
+            <h3 className="mb-3">The winner is <strong>{winner}</strong></h3>
+            <button onClick={handleClickBack} className="button is-secondary is-small">
+              <span className="icon is-ismall">
+                <i className="fas fa-chevron-left"></i>
+              </span>
+              <span>Back</span></button>
+          </div>
+        </>
       )}
       { !winner && nameList.map((item, index) => {
         return (
