@@ -76,10 +76,10 @@ const MainForm = ({ winner, setWinner }) => {
     /* get random */
     const randomIndex = newNameList.length * Math.random() | 0;
     const randomName = newNameList[randomIndex];
+    window.scrollTo({ top: 0 });
     setSubmitted(true);
     setWinner(randomName);
     setNameList(newNameList);
-
   }
 
   const handleClickReset = () => {
