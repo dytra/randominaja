@@ -420,7 +420,7 @@ const MainForm = ({ winner, setWinner, spinning, setSpinning }) => {
           <span className="icon is-ismall">
             <i className="fas fa-sync"></i>
           </span>
-          <span>Acakincuy</span></button>
+          <span>Acakin</span></button>
         <button className="button is-secondary" onClick={handleClickReset} disabled={nameList?.length === 0}>Reset</button>
       </div>
     </>
