@@ -5,17 +5,18 @@ const Home = () => {
   const LANGUAGE = 'id';
   const SUPPORT_LINK = LANGUAGE === 'id' ? 'https://saweria.co/dytraio' : 'https://saweria.co/dytraio';
   const [winner, setWinner] = useState();
+  const [spinning, setSpinning] = useState(false);
   return (
     <DefaultTemplate>
       <div className="columns">
         <div className="column">
           <div className="container">
             <section className="section">
-              <MainForm winner={winner} setWinner={setWinner} />
+              <MainForm winner={winner} setWinner={setWinner} spinning={spinning} setSpinning={setSpinning} />
             </section>
           </div>
         </div>
-        {!winner && (
+        {!winner && !spinning && (
 
           <div className="column">
             <section className="section">

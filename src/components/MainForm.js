@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from "react";
 import Confetti from 'react-dom-confetti';
 
-const MainForm = ({ winner, setWinner }) => {
+const MainForm = ({ winner, setWinner, spinning, setSpinning }) => {
   const [currentName, setCurrentName] = useState("");
   const [nameList, setNameList] = useState([]);
   const [tempNameList, setTempNameList] = useState([]);
-
   const [submitted, setSubmitted] = useState(false);
+  const [wheelActive, setWheelActive] = useState(true);
+  const [theWheel, setTheWheel] = useState();
+  const [confettiActive, setConfettiActive] = useState(false);
+
+  /*winwheel*/
+  // Vars used by the code in this page to do power controls.
+  let wheelPower = 0;
+  let wheelSpinning = false;
 
   const confettiConfig = {
     angle: 90,
@@ -46,6 +53,11 @@ const MainForm = ({ winner, setWinner }) => {
     setCurrentName("");
   }
 
+  const handleChangeWheel = e => {
+    console.log('wheel active', e.target.checked);
+    setWheelActive(e.target.checked);
+  }
+
   const handleClickRemove = index => {
     const newNameList = nameList.filter((item, idx) => {
       return idx !== index
@@ -78,17 +90,30 @@ const MainForm = ({ winner, setWinner }) => {
     const randomName = newNameList[randomIndex];
     window.scrollTo({ top: 0 });
     setSubmitted(true);
-    setWinner(randomName);
+
+    if (!wheelActive) {
+      setWinner(randomName);
+      setConfettiActive(true);
+    } else {
+      if (theWheel) {
+        resetWheel();
+        startSpin();
+      }
+      setConfettiActive(false);
+      setWinner(null);
+    }
     setNameList(newNameList);
   }
 
   const handleClickReset = () => {
     setNameList([]);
     setWinner(null);
+    setSubmitted(false);
   }
 
   const handleClickBack = () => {
     setWinner(null);
+    setSubmitted(false);
   }
 
   const handleChangeNameByIndex = (index, e) => {
@@ -118,19 +143,183 @@ const MainForm = ({ winner, setWinner }) => {
   }
 
   useEffect(() => {
-    if (winner) {
-      setTimeout(() => {
+    // if (submitted) {
+    setTimeout(() => {
+      // setSubmitted(false);
+      if (!wheelActive) {
         setSubmitted(false);
+        // alert("yow");
+        setConfettiActive(false);
+      }
+    }, 100);
+    // }
+    // alert("yolo");
+  }, [confettiActive]);
 
+  useEffect(() => {
+    if (confettiActive) {
+      setTimeout(() => {
+        // setSubmitted(false);
+        if (wheelActive) {
+          // alert("yow");
+          setConfettiActive(false);
+        }
       }, 100);
     }
-  }, [winner]);
+    // alert("yolo");
+  }, [confettiActive]);
+
+
+
+  // -------------------------------------------------------
+  // Function to handle the onClick on the power buttons.
+  // -------------------------------------------------------
+  function powerSelected(powerLevel) {
+    // Ensure that power can't be changed while wheel is spinning.
+    if (wheelSpinning == false) {
+      // Reset all to grey incase this is not the first time the user has selected the power.
+      document.getElementById('pw1').className = "";
+      document.getElementById('pw2').className = "";
+      document.getElementById('pw3').className = "";
+
+      // Now light up all cells below-and-including the one selected by changing the class.
+      if (powerLevel >= 1) {
+        document.getElementById('pw1').className = "pw1";
+      }
+
+      if (powerLevel >= 2) {
+        document.getElementById('pw2').className = "pw2";
+      }
+
+      if (powerLevel >= 3) {
+        document.getElementById('pw3').className = "pw3";
+      }
+
+      // Set wheelPower var used when spin button is clicked.
+      wheelPower = powerLevel;
+
+      // Light up the spin button by changing it's source image and adding a clickable class to it.
+      document.getElementById('spin_button').src = "http://dougtesting.net//elements/images/examples/spin_on.png";
+      document.getElementById('spin_button').className = "clickable";
+    }
+  }
+
+  // -------------------------------------------------------
+  // Click handler for spin button.
+  // -------------------------------------------------------
+  function startSpin() {
+    setSpinning(true);
+    // Ensure that spinning can't be clicked again while already running.
+    if (wheelSpinning == false) {
+      // Based on the power level selected adjust the number of spins for the wheel, the more times is has
+      // to rotate with the duration of the animation the quicker the wheel spins.
+      if (wheelPower == 1) {
+        theWheel.animation.spins = 3;
+      } else if (wheelPower == 2) {
+        theWheel.animation.spins = 8;
+      } else if (wheelPower == 3) {
+        theWheel.animation.spins = 15;
+      }
+
+      // Disable the spin button so can't click again while wheel is spinning.
+      // document.getElementById('spin_button').src = "http://dougtesting.net//elements/images/examples/spin_off.png";
+      // document.getElementById('spin_button').className = "";
+
+      // Begin the spin animation by calling startAnimation on the wheel object.
+      theWheel.startAnimation();
+
+      // Set to true so that power can't be changed and spin button re-enabled during
+      // the current animation. The user will have to reset before spinning again.
+      wheelSpinning = true;
+    }
+  }
+
+  // -------------------------------------------------------
+  // Function for reset button.
+  // -------------------------------------------------------
+  function resetWheel() {
+    theWheel.stopAnimation(false);  // Stop the animation, false as param so does not call callback function.
+    theWheel.rotationAngle = 0;     // Re-set the wheel angle to 0 degrees.
+    theWheel.draw();                // Call draw to render changes to the wheel.
+
+    // document.getElementById('pw1').className = "";  
+    // document.getElementById('pw2').className = "";
+    // document.getElementById('pw3').className = "";
+
+    wheelSpinning = false;          // Reset to false to power buttons and spin can be clicked again.
+  }
+
+  // -------------------------------------------------------
+  // Called when the spin animation has finished by the callback feature of the wheel because I specified callback in the parameters.
+  // -------------------------------------------------------
+  function alertPrize(indicatedSegment) {
+    // Do basic alert of the segment text. You would probably want to do something more interesting with this information.
+    // alert("You have won " + indicatedSegment.text);
+    setConfettiActive(true);
+    setWinner(indicatedSegment.text);
+    setSpinning(false);
+    // setSubmitted(false);
+  }
+
+  useEffect(() => {
+    if (!submitted) return;
+    if (!wheelActive) return;
+    // Create new wheel object specifying the parameters at creation time.
+    let theWheelObj = {
+      'numSegments': 8,
+      'outerRadius': 212,
+      'centerX': 217,
+      'centerY': 219,
+      'textFontSize': 28,
+      'segments':
+        [
+          { 'fillStyle': '#eae56f', 'text': 'Prize 1' },
+          { 'fillStyle': '#89f26e', 'text': 'Prize 2' },
+          { 'fillStyle': '#7de6ef', 'text': 'Prize 3' },
+          { 'fillStyle': '#e7706f', 'text': 'Prize 4' },
+          { 'fillStyle': '#eae56f', 'text': 'Prize 5' },
+          { 'fillStyle': '#89f26e', 'text': 'Prize 6' },
+          { 'fillStyle': '#7de6ef', 'text': 'Prize 7' },
+          { 'fillStyle': '#e7706f', 'text': 'Prize 8' }
+        ],
+      'animation':
+      {
+        'type': 'spinToStop',
+        'duration': 5,
+        'spins': 8,
+        'callbackFinished': alertPrize
+      }
+    };
+    theWheelObj.numSegments = nameList.length;
+    theWheelObj.segments = nameList.map(item => {
+      return {
+        fillStyle: '#ffffff',
+        text: item
+      }
+    });
+    setTheWheel(new window.Winwheel(theWheelObj));
+
+  }, [submitted, wheelActive, setTheWheel]);
+
+  useEffect(() => {
+    if (!theWheel) return;
+    startSpin();
+  }, [theWheel]);
 
   return (
     <>
       {/* <Confetti active={submitted} config={confettiConfig} /> */}
       <div className="is-flex" style={{ justifyContent: 'center' }}>
-        <Confetti active={submitted} config={confettiConfig} />
+        <Confetti active={confettiActive} config={confettiConfig} />
+      </div>
+
+
+      <div style={{ display: wheelActive && submitted ? 'block' : 'none' }}>
+        <div className="is-flex" style={{ flexDirection: 'column', alignItems: 'center' }}>
+          <canvas id='canvas' width='500' height='500'>
+            Canvas not supported, use another browser.
+        </canvas>
+        </div>
       </div>
       {winner && (
         <>
@@ -138,7 +327,7 @@ const MainForm = ({ winner, setWinner }) => {
           <div className="is-flex" style={{ flexDirection: 'column', alignItems: 'center', marginBottom: '10em' }}>
             <h3 className="mb-3">Pemenangnya adalah <strong>{winner}</strong>
             </h3>
-            <div class="field is-grouped">
+            <div className="field is-grouped">
               <p className="control">
                 <button onClick={handleClickBack} className="button is-secondary is-small">
                   <span className="icon is-ismall">
@@ -159,7 +348,7 @@ const MainForm = ({ winner, setWinner }) => {
           </div>
         </>
       )}
-      { !winner && nameList.map((item, index) => {
+      { !winner && !submitted && nameList.map((item, index) => {
         return (
           <div className="columns mb-3" key={index + item}>
 
@@ -185,7 +374,7 @@ const MainForm = ({ winner, setWinner }) => {
       })}
 
       {
-        !winner && (
+        !winner && !submitted && (
           <>
             <form className="mb-5" onSubmit={handleSubmitNames}>
               <div className="field">
@@ -213,6 +402,13 @@ const MainForm = ({ winner, setWinner }) => {
           </>
         )
       }
+      <div className="field">
+        <div className="control">
+          <label className="checkbox">
+            <input type="checkbox" onChange={handleChangeWheel} disabled={nameList?.length < 1} checked={wheelActive} /> Acakin dengan animasi animasi
+          </label>
+        </div>
+      </div>
       <div className="buttons">
         <button className="button is-primary" onClick={handleSubmitRandom} disabled={nameList?.length < 1}>
           <span className="icon is-ismall">
