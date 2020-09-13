@@ -2,6 +2,9 @@ import React from "react"
 import DefaultTemplate from "../templates/DefaultTemplate";
 import MainForm from "../components/MainForm"
 const Home = () => {
+  const LANGUAGE = 'id';
+  const SUPPORT_LINK = LANGUAGE === 'id' ? 'https://saweria.co/dytraio' : 'https://saweria.co/dytraio';
+  const SUPPORT_ICON = LANGUAGE === 'id' ? 'fas fa-money-bill-wave' : 'fab fa-paypal';
   return (
     <DefaultTemplate>
       <div className="columns">
@@ -14,25 +17,16 @@ const Home = () => {
         </div>
         <div className="column">
           <section className="section">
-            {/* <div className="container"> */}
             <h1 className="title is-4">Support Kami</h1>
-            <h2 className="subtitle">Support kami agar web ini tetap berjalan tanpa iklan atau monetisasi yang aneh-aneh</h2>
-            <a href="https://paypal.me/dytra?locale.x=id_ID" className="button is-secondary" target="_blank" rel="noopener noreferrer">
+            <h2 className="subtitle">Support kami agar web ini tetap berjalan tanpa iklan atau monetisasi yang aneh-aneh.</h2>
+            <a href={SUPPORT_LINK} className="button is-secondary" target="_blank" rel="noopener noreferrer">
               <span className="icon is-small">
-                <i className="fab fa-paypal"></i>
+                <i className={SUPPORT_ICON}></i>
               </span>
               <span>Support</span>
             </a>
-            {/* </div> */}
           </section>
-          {/* <p><strong>Support Kami</strong></p>
-          <p>Support kami agar web ini tetap berjalan tanpa iklan atau monetisasi yang aneh-aneh</p>
-          <a href="https://paypal.me/dytra?locale.x=id_ID" className="button is-secondary" target="_blank" rel="noopener noreferrer">
-            <span className="icon is-small">
-              <i className="fab fa-paypal"></i>
-            </span>
-            <span>Support</span>
-          </a> */}
+
         </div>
       </div>
     </DefaultTemplate>
