@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Confetti from 'react-dom-confetti';
 
-const MainForm = () => {
+const MainForm = ({winner,setWinner}) => {
   const [currentName, setCurrentName] = useState("");
   const [nameList, setNameList] = useState([]);
   const [tempNameList, setTempNameList] = useState([]);
-  const [winner, setWinner] = useState();
+  
   const [submitted, setSubmitted] = useState(false);
 
   const confettiConfig = {
@@ -35,6 +35,10 @@ const MainForm = () => {
   const handleClickTambah = e => {
     e.preventDefault();
     const name = currentName;
+    if (!name) {
+      alert("Tolong input data terlebih dahulu");
+      return;
+    }
     // console.log(name);
     let newNameList = [];
     newNameList = [...nameList, name];
@@ -181,7 +185,7 @@ const MainForm = () => {
                       <input name="name" className="input" type="text" placeholder="Entry data..." onChange={handleChangeName} autoComplete="off" value={currentName} required />
                     </div>
                     <div className="column is-3">
-                      <button className="button is-secondary" onClick={handleClickTambah}>
+                      <button className="button is-secondary" onClick={handleClickTambah} disabled={!currentName}>
                         <span className="icon is-small">
                           <i className="fas fa-plus"></i>
                         </span>
