@@ -18,7 +18,7 @@ const DefaultTemplate = ({ children }) => {
       <footer className="footer" style={{ marginTop: 'auto', width: '100%' }}>
         <div className="content has-text-centered">
           <p>
-            <strong>acakin</strong> by <a href="https://dytra.github.io">dytra</a>. All rights reserved
+            <strong>acakin</strong> by <a href="https://dytra.github.io" target="_blank">dytra</a>. All rights reserved
     </p>
         </div>
       </footer>
