@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Confetti from 'react-dom-confetti';
 
-const MainForm = ({winner,setWinner}) => {
+const MainForm = ({ winner, setWinner }) => {
   const [currentName, setCurrentName] = useState("");
   const [nameList, setNameList] = useState([]);
   const [tempNameList, setTempNameList] = useState([]);
-  
+
   const [submitted, setSubmitted] = useState(false);
 
   const confettiConfig = {
@@ -207,7 +207,7 @@ const MainForm = ({winner,setWinner}) => {
             <i className="fas fa-sync"></i>
           </span>
           <span>Acakincuy</span></button>
-        <button className="button is-secondary" onClick={handleClickReset}>Reset</button>
+        <button className="button is-secondary" onClick={handleClickReset} disabled={nameList?.length === 0}>Reset</button>
       </div>
     </>
   )
