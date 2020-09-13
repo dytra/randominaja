@@ -147,7 +147,7 @@ const MainForm = () => {
         return (
           <div className="columns mb-3" key={index + item}>
 
-            <div className="column is-4">
+            <div className="column is-9">
               <div className="field" key={index}>
                 <div className="control is-flex">
                   <span className="mr-3 is-flex" style={{ alignItems: 'center' }}>{index + 1}</span>
@@ -177,7 +177,7 @@ const MainForm = () => {
 
                   <div className="columns">
 
-                    <div className="column is-4">
+                    <div className="column is-9">
                       <input name="name" className="input" type="text" placeholder="Entry data..." onChange={handleChangeName} autoComplete="off" value={currentName} required />
                     </div>
                     <div className="column is-3">
