@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Confetti from 'react-dom-confetti';
 
-const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop-300)
+const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop - 300)
 
 const MainForm = ({ winner, setWinner, spinning, setSpinning }) => {
   const [currentName, setCurrentName] = useState("");
@@ -359,12 +359,19 @@ const MainForm = ({ winner, setWinner, spinning, setSpinning }) => {
           <div className="columns mb-3" key={index + item}>
 
             <div className="column is-9">
-              <div className="field" key={index}>
-                <div className="control is-flex">
-                  <span className="mr-3 is-flex" style={{ alignItems: 'center' }}>{index + 1}</span>
-                  <input key={'input' + index + item} name={`listed-name-${index}`} className="input" type="text" defaultValue={item} onInput={(e) => handleChangeNameByIndex(index, e)} />
+              <div className="field has-addons" key={index}>
+                {/* <div className="control is-flex"> */}
+                {/* <span className="mr-3 is-flex" style={{ alignItems: 'center' }}>
 
-                </div>
+                  </span> */}
+                <p class="control">
+                  <a class="button is-static">{index + 1}</a>
+                </p>
+                <p class="control is-expanded">
+                  <input key={'input' + index + item} name={`listed-name-${index}`} className="input" type="text" defaultValue={item} onInput={(e) => handleChangeNameByIndex(index, e)} />
+                </p>
+
+                {/* </div> */}
               </div>
             </div>
             <div className="column is-3">
