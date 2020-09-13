@@ -138,12 +138,24 @@ const MainForm = ({ winner, setWinner }) => {
           <div className="is-flex" style={{ flexDirection: 'column', alignItems: 'center', marginBottom: '10em' }}>
             <h3 className="mb-3">Pemenangnya adalah <strong>{winner}</strong>
             </h3>
+            <div class="field is-grouped">
+              <p className="control">
+                <button onClick={handleClickBack} className="button is-secondary is-small">
+                  <span className="icon is-ismall">
+                    <i className="fas fa-chevron-left"></i>
+                  </span>
+                  <span>Back</span></button>
 
-            <button onClick={handleClickBack} className="button is-secondary is-small">
-              <span className="icon is-ismall">
-                <i className="fas fa-chevron-left"></i>
-              </span>
-              <span>Back</span></button>
+              </p>
+              <p className="control">
+                <a className="button is-danger is-light is-small" href="https://saweria.co/dytraio" target="_blank" rel="noopener noreferrer">
+                  <span className="icon is-small">
+                    <i className="fas fa-heart"></i>
+                  </span>
+                  <span>Beri Tip</span>
+                </a>
+              </p>
+            </div>
           </div>
         </>
       )}

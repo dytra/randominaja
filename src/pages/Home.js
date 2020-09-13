@@ -4,7 +4,6 @@ import MainForm from "../components/MainForm"
 const Home = () => {
   const LANGUAGE = 'id';
   const SUPPORT_LINK = LANGUAGE === 'id' ? 'https://saweria.co/dytraio' : 'https://saweria.co/dytraio';
-  const SUPPORT_ICON = LANGUAGE === 'id' ? 'fas fa-money-bill-wave' : 'fab fa-paypal';
   const [winner, setWinner] = useState();
   return (
     <DefaultTemplate>
@@ -23,8 +22,8 @@ const Home = () => {
               <h1 className="title is-4">Support Kami</h1>
               <h2 className="subtitle">Support kami dengan berdonasi agar web ini tetap berjalan dengan gratis tanpa iklan atau monetisasi yang aneh-aneh.</h2>
               <a href={SUPPORT_LINK} className="button is-secondary" target="_blank" rel="noopener noreferrer">
-                <span className="icon is-small">
-                  <i className={SUPPORT_ICON}></i>
+                <span className="icon is-small has-text-danger">
+                  <i className="fas fa-heart"></i>
                 </span>
                 <span>Donasi</span>
               </a>
