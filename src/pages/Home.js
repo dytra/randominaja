@@ -21,7 +21,7 @@ const Home = () => {
           <div className="column">
             <section className="section">
               <h1 className="title is-4">Support Kami</h1>
-              <h2 className="subtitle">Support kami agar web ini tetap berjalan tanpa iklan atau monetisasi yang aneh-aneh.</h2>
+              <h2 className="subtitle">Support kami agar web ini tetap berjalan dengan gratis tanpa iklan atau monetisasi yang aneh-aneh.</h2>
               <a href={SUPPORT_LINK} className="button is-secondary" target="_blank" rel="noopener noreferrer">
                 <span className="icon is-small">
                   <i className={SUPPORT_ICON}></i>
