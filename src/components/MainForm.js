@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Confetti from 'react-dom-confetti';
+
+const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop-300)
 
 const MainForm = ({ winner, setWinner, spinning, setSpinning }) => {
   const [currentName, setCurrentName] = useState("");
@@ -9,7 +11,7 @@ const MainForm = ({ winner, setWinner, spinning, setSpinning }) => {
   const [wheelActive, setWheelActive] = useState(true);
   const [theWheel, setTheWheel] = useState();
   const [confettiActive, setConfettiActive] = useState(false);
-
+  const myRef = useRef(null)
   /*winwheel*/
   // Vars used by the code in this page to do power controls.
   let wheelPower = 0;
@@ -29,6 +31,7 @@ const MainForm = ({ winner, setWinner, spinning, setSpinning }) => {
     colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"]
   };
 
+  const executeScroll = () => scrollToRef(myRef)
   const handleSubmitNames = (e) => {
     e.preventDefault();
     const name = e.target.name.value;
@@ -88,7 +91,10 @@ const MainForm = ({ winner, setWinner, spinning, setSpinning }) => {
     /* get random */
     const randomIndex = newNameList.length * Math.random() | 0;
     const randomName = newNameList[randomIndex];
-    window.scrollTo({ top: 0 });
+
+    // scrollToRef(myRef);
+
+    // myRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
     setSubmitted(true);
 
     if (!wheelActive) {
@@ -101,6 +107,7 @@ const MainForm = ({ winner, setWinner, spinning, setSpinning }) => {
       }
       setConfettiActive(false);
       setWinner(null);
+
     }
     setNameList(newNameList);
   }
@@ -258,6 +265,7 @@ const MainForm = ({ winner, setWinner, spinning, setSpinning }) => {
     setConfettiActive(true);
     setWinner(indicatedSegment.text);
     setSpinning(false);
+    executeScroll();
     // setSubmitted(false);
   }
 
@@ -309,45 +317,43 @@ const MainForm = ({ winner, setWinner, spinning, setSpinning }) => {
   return (
     <>
       {/* <Confetti active={submitted} config={confettiConfig} /> */}
-      <div className="is-flex" style={{ justifyContent: 'center' }}>
-        <Confetti active={confettiActive} config={confettiConfig} />
-      </div>
+
 
 
       <div style={{ display: wheelActive && submitted ? 'block' : 'none' }}>
         <div className="is-flex" style={{ flexDirection: 'column', alignItems: 'center' }}>
-          <canvas id='canvas' width='500' height='500'>
+          <canvas id='canvas' width='500' height='500' >
             Canvas not supported, use another browser.
         </canvas>
         </div>
       </div>
-      {winner && (
-        <>
 
-          <div className="is-flex" style={{ flexDirection: 'column', alignItems: 'center', marginBottom: '10em' }}>
-            <h3 className="mb-3">Pemenangnya adalah <strong>{winner}</strong>
-            </h3>
-            <div className="field is-grouped">
-              <p className="control">
-                <button onClick={handleClickBack} className="button is-secondary is-small">
-                  <span className="icon is-ismall">
-                    <i className="fas fa-chevron-left"></i>
-                  </span>
-                  <span>Back</span></button>
+      <div style={{ display: winner ? 'flex' : 'none', flexDirection: 'column', alignItems: 'center', marginBottom: '10em' }} ref={myRef}>
+        <div className="is-flex" style={{ justifyContent: 'center' }}>
+          <Confetti active={confettiActive} config={confettiConfig} />
+        </div>
+        <h3 className="mb-3" >Pemenangnya adalah <strong>{winner}</strong>
+        </h3>
+        <div className="field is-grouped">
+          <p className="control">
+            <button onClick={handleClickBack} className="button is-secondary is-small">
+              <span className="icon is-ismall">
+                <i className="fas fa-chevron-left"></i>
+              </span>
+              <span>Back</span></button>
 
-              </p>
-              <p className="control">
-                <a className="button is-danger is-light is-small" href="https://saweria.co/dytraio" target="_blank" rel="noopener noreferrer">
-                  <span className="icon is-small">
-                    <i className="fas fa-heart"></i>
-                  </span>
-                  <span>Beri Tip</span>
-                </a>
-              </p>
-            </div>
-          </div>
-        </>
-      )}
+          </p>
+          <p className="control">
+            <a className="button is-danger is-light is-small" href="https://saweria.co/dytraio" target="_blank" rel="noopener noreferrer">
+              <span className="icon is-small">
+                <i className="fas fa-heart"></i>
+              </span>
+              <span>Beri Tip</span>
+            </a>
+          </p>
+        </div>
+      </div>
+
       { !winner && !submitted && nameList.map((item, index) => {
         return (
           <div className="columns mb-3" key={index + item}>
