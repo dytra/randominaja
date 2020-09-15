@@ -161,7 +161,7 @@ const MainForm = ({ winner, setWinner, spinning, setSpinning }) => {
     }, 100);
     // }
     // alert("yolo");
-  }, [confettiActive]);
+  }, [confettiActive, wheelActive]);
 
   useEffect(() => {
     if (confettiActive) {
@@ -174,42 +174,8 @@ const MainForm = ({ winner, setWinner, spinning, setSpinning }) => {
       }, 100);
     }
     // alert("yolo");
-  }, [confettiActive]);
+  }, [confettiActive, wheelActive]);
 
-
-
-  // -------------------------------------------------------
-  // Function to handle the onClick on the power buttons.
-  // -------------------------------------------------------
-  function powerSelected(powerLevel) {
-    // Ensure that power can't be changed while wheel is spinning.
-    if (wheelSpinning == false) {
-      // Reset all to grey incase this is not the first time the user has selected the power.
-      document.getElementById('pw1').className = "";
-      document.getElementById('pw2').className = "";
-      document.getElementById('pw3').className = "";
-
-      // Now light up all cells below-and-including the one selected by changing the class.
-      if (powerLevel >= 1) {
-        document.getElementById('pw1').className = "pw1";
-      }
-
-      if (powerLevel >= 2) {
-        document.getElementById('pw2').className = "pw2";
-      }
-
-      if (powerLevel >= 3) {
-        document.getElementById('pw3').className = "pw3";
-      }
-
-      // Set wheelPower var used when spin button is clicked.
-      wheelPower = powerLevel;
-
-      // Light up the spin button by changing it's source image and adding a clickable class to it.
-      document.getElementById('spin_button').src = "http://dougtesting.net//elements/images/examples/spin_on.png";
-      document.getElementById('spin_button').className = "clickable";
-    }
-  }
 
   // -------------------------------------------------------
   // Click handler for spin button.
@@ -217,14 +183,14 @@ const MainForm = ({ winner, setWinner, spinning, setSpinning }) => {
   function startSpin() {
     setSpinning(true);
     // Ensure that spinning can't be clicked again while already running.
-    if (wheelSpinning == false) {
+    if (wheelSpinning === false) {
       // Based on the power level selected adjust the number of spins for the wheel, the more times is has
       // to rotate with the duration of the animation the quicker the wheel spins.
-      if (wheelPower == 1) {
+      if (wheelPower === 1) {
         theWheel.animation.spins = 3;
-      } else if (wheelPower == 2) {
+      } else if (wheelPower === 2) {
         theWheel.animation.spins = 8;
-      } else if (wheelPower == 3) {
+      } else if (wheelPower === 3) {
         theWheel.animation.spins = 15;
       }
 
@@ -306,13 +272,14 @@ const MainForm = ({ winner, setWinner, spinning, setSpinning }) => {
       }
     });
     setTheWheel(new window.Winwheel(theWheelObj));
-
+    // eslint-disable-next-line
   }, [submitted, wheelActive, setTheWheel]);
 
   useEffect(() => {
     if (!theWheel) return;
     startSpin();
-  }, [theWheel]);
+    // eslint-disable-next-line
+  }, [theWheel,]);
 
   return (
     <>
@@ -365,7 +332,7 @@ const MainForm = ({ winner, setWinner, spinning, setSpinning }) => {
 
                   </span> */}
                 <p class="control">
-                  <a class="button is-static">{index + 1}</a>
+                  <span class="button is-static">{index + 1}</span>
                 </p>
                 <p class="control is-expanded">
                   <input key={'input' + index + item} name={`listed-name-${index}`} className="input" type="text" defaultValue={item} onInput={(e) => handleChangeNameByIndex(index, e)} />
