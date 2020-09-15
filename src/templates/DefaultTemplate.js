@@ -4,14 +4,14 @@ const DefaultTemplate = ({ children }) => {
   return (
 
     <div className="container is-flex pt-3" style={{ flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'flex-start', height: '100%' }}>
-      <header className="mb-5">
+      <header >
         <section className="section">
           <h1 className="title">Acakin</h1>
           <p className="subtitle">acakin apa aja yang kamu mau</p>
         </section>
       </header>
 
-      <main className="mb-5" style={{ width: '100%' }}>
+      <main style={{ width: '100%' }}>
         {children}
       </main>
 
