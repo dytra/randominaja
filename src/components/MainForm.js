@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Confetti from 'react-dom-confetti';
+import Wheel from "./Wheel";
 
 const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop - 300)
 
@@ -149,34 +150,6 @@ const MainForm = ({ winner, setWinner, spinning, setSpinning }) => {
 
   }
 
-  useEffect(() => {
-    // if (submitted) {
-    setTimeout(() => {
-      // setSubmitted(false);
-      if (!wheelActive) {
-        setSubmitted(false);
-        // alert("yow");
-        setConfettiActive(false);
-      }
-    }, 100);
-    // }
-    // alert("yolo");
-  }, [confettiActive, wheelActive]);
-
-  useEffect(() => {
-    if (confettiActive) {
-      setTimeout(() => {
-        // setSubmitted(false);
-        if (wheelActive) {
-          // alert("yow");
-          setConfettiActive(false);
-        }
-      }, 100);
-    }
-    // alert("yolo");
-  }, [confettiActive, wheelActive]);
-
-
   // -------------------------------------------------------
   // Click handler for spin button.
   // -------------------------------------------------------
@@ -222,58 +195,31 @@ const MainForm = ({ winner, setWinner, spinning, setSpinning }) => {
     wheelSpinning = false;          // Reset to false to power buttons and spin can be clicked again.
   }
 
-  // -------------------------------------------------------
-  // Called when the spin animation has finished by the callback feature of the wheel because I specified callback in the parameters.
-  // -------------------------------------------------------
-  function alertPrize(indicatedSegment) {
-    // Do basic alert of the segment text. You would probably want to do something more interesting with this information.
-    // alert("You have won " + indicatedSegment.text);
-    setConfettiActive(true);
-    setWinner(indicatedSegment.text);
-    setSpinning(false);
-    executeScroll();
-    // setSubmitted(false);
-  }
+  useEffect(() => {
+    // if (submitted) {
+    setTimeout(() => {
+      // setSubmitted(false);
+      if (!wheelActive) {
+        setSubmitted(false);
+        // alert("yow");
+        setConfettiActive(false);
+      }
+    }, 100);
+    // }
+    // alert("yolo");
+  }, [confettiActive, wheelActive]);
 
   useEffect(() => {
-    if (!submitted) return;
-    if (!wheelActive) return;
-    // Create new wheel object specifying the parameters at creation time.
-    let theWheelObj = {
-      'numSegments': 8,
-      'outerRadius': 212,
-      'centerX': 217,
-      'centerY': 219,
-      'textFontSize': 28,
-      'segments':
-        [
-          { 'fillStyle': '#eae56f', 'text': 'Prize 1' },
-          { 'fillStyle': '#89f26e', 'text': 'Prize 2' },
-          { 'fillStyle': '#7de6ef', 'text': 'Prize 3' },
-          { 'fillStyle': '#e7706f', 'text': 'Prize 4' },
-          { 'fillStyle': '#eae56f', 'text': 'Prize 5' },
-          { 'fillStyle': '#89f26e', 'text': 'Prize 6' },
-          { 'fillStyle': '#7de6ef', 'text': 'Prize 7' },
-          { 'fillStyle': '#e7706f', 'text': 'Prize 8' }
-        ],
-      'animation':
-      {
-        'type': 'spinToStop',
-        'duration': 5,
-        'spins': 8,
-        'callbackFinished': alertPrize
-      }
-    };
-    theWheelObj.numSegments = nameList.length;
-    theWheelObj.segments = nameList.map(item => {
-      return {
-        fillStyle: '#ffffff',
-        text: item
-      }
-    });
-    setTheWheel(new window.Winwheel(theWheelObj));
-    // eslint-disable-next-line
-  }, [submitted, wheelActive, setTheWheel]);
+    if (confettiActive) {
+      setTimeout(() => {
+        // setSubmitted(false);
+        if (wheelActive) {
+          // alert("yow");
+          setConfettiActive(false);
+        }
+      }, 100);
+    }
+  }, [confettiActive, wheelActive]);
 
   useEffect(() => {
     if (!theWheel) return;
@@ -289,9 +235,7 @@ const MainForm = ({ winner, setWinner, spinning, setSpinning }) => {
 
       <div style={{ display: wheelActive && submitted ? 'block' : 'none' }}>
         <div className="is-flex" style={{ flexDirection: 'column', alignItems: 'center' }}>
-          <canvas id='canvas' width='500' height='500' >
-            Canvas not supported, use another browser.
-        </canvas>
+          <Wheel setTheWheel={setTheWheel} submitted={submitted} wheelActive={wheelActive} setConfettiActive={setConfettiActive} setWinner={setWinner} setSpinning={setSpinning} executeScroll={executeScroll} nameList={nameList} />
         </div>
       </div>
 
